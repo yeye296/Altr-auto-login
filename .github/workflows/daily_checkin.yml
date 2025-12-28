@@ -28,4 +28,4 @@ jobs:
         env: # 将 GitHub Secrets 里的密码注入到环境变量中
           ALTR_EMAIL: ${{ secrets.ALTR_EMAIL }}
           ALTR_PASSWORD: ${{ secrets.ALTR_PASSWORD }}
-        run: python main.py # 第四步：运行你的 Python 脚本
+        run: python -u main.py # 第四步：运行你的 Python 脚本
