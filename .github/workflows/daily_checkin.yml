@@ -22,10 +22,27 @@ jobs:
       - name: Install dependencies
         run: | # 第三步：安装依赖库
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          # 安装旧脚本的依赖（如果有的话）
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # 【重要】强制安装新脚本(Zampto)必须的 selenium 和 webdriver_manager
+          # 这样即使 requirements.txt 里没写，脚本也能跑
+          pip install selenium webdriver_manager
 
-      - name: Run Sign-in Script
-        env: # 将 GitHub Secrets 里的密码注入到环境变量中
-          ALTR_EMAIL: ${{ secrets.ALTR_EMAIL }}
-          ALTR_PASSWORD: ${{ secrets.ALTR_PASSWORD }}
-        run: python -u main.py # 第四步：运行你的 Python 脚本
+      # ========================================================
+      # 旧脚本区域 (已注释，暂时不运行)
+      # ========================================================
+      # - name: Run Sign-in Script
+      #   env: # 将 GitHub Secrets 里的密码注入到环境变量中
+      #     ALTR_EMAIL: ${{ secrets.ALTR_EMAIL }}
+      #     ALTR_PASSWORD: ${{ secrets.ALTR_PASSWORD }}
+      #   run: python -u main.py # 第四步：运行你的 Python 脚本
+
+      # ========================================================
+      # 新脚本区域 (Zampto 自动续费)
+      # ========================================================
+      - name: Run Zampto Renew Script
+        env:
+          # 读取你在 Secrets 里设置的 ZAMPTO_ACCOUNTS (格式: 账号:密码,账号:密码)
+          ZAMPTO_ACCOUNTS: ${{ secrets.ZAMPTO_ACCOUNTS }}
+        # 运行新脚本，-u 参数保证日志实时输出
+        run: python -u zampto.py
