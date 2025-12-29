@@ -1,5 +1,4 @@
-# Altr-auto-login
-自动登录Altr
+## fork本项目
 
 ## 在仓库的 Settings -> Secrets and variables -> Actions 中添加：
 ALTR_ACCOUNTS和ZAMPTO_ACCOUNTS
