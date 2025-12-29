@@ -28,14 +28,12 @@ jobs:
           # 这样即使 requirements.txt 里没写，脚本也能跑
           pip install selenium webdriver_manager
 
-      # ========================================================
-      # 旧脚本区域 (已注释，暂时不运行)
-      # ========================================================
-      # - name: Run Sign-in Script
-      #   env: # 将 GitHub Secrets 里的密码注入到环境变量中
-      #     ALTR_EMAIL: ${{ secrets.ALTR_EMAIL }}
-      #     ALTR_PASSWORD: ${{ secrets.ALTR_PASSWORD }}
-      #   run: python -u Altr.py # 第四步：运行你的 Python 脚本
+
+      - name: Run Sign-in Script
+        env: # 将 GitHub Secrets 里的密码注入到环境变量中
+         ALTR_EMAIL: ${{ secrets.ALTR_EMAIL }}
+         ALTR_PASSWORD: ${{ secrets.ALTR_PASSWORD }}
+         run: python -u Altr.py # 第四步：运行你的 Python 脚本
 
       # ========================================================
       # 新脚本区域 (Zampto 自动续费)
