@@ -28,12 +28,11 @@ jobs:
           pip install selenium webdriver_manager
 
       # ========================================================
-      # 旧脚本区域 (Altr 自动签到) - 已启用并支持多账号
+      # 旧脚本区域 (Altr 自动签到)
       # ========================================================
       - name: Altr 自动签到
         env: 
           # 请在 GitHub Secrets 中添加 ALTR_ACCOUNTS
-          # 格式: 账号1:密码1,账号2:密码2
           ALTR_ACCOUNTS: ${{ secrets.ALTR_ACCOUNTS }}
         run: python -u Altr.py # -u 参数保证日志实时输出
 
@@ -42,7 +41,21 @@ jobs:
       # ========================================================
       - name: Zampto 自动续费
         env:
-          # 读取你在 Secrets 里设置的 ZAMPTO_ACCOUNTS (格式: 账号:密码,账号:密码)
+          # 读取你在 Secrets 里设置的 ZAMPTO_ACCOUNTS
           ZAMPTO_ACCOUNTS: ${{ secrets.ZAMPTO_ACCOUNTS }}
         # 运行新脚本，-u 参数保证日志实时输出
         run: python -u zampto.py
+
+      # ========================================================
+      # 【新增】上传调试文件步骤
+      # 只有当 zampto.py 生成了截图或 html 文件时，这里才会上传
+      # ========================================================
+      - name: Upload Debug Files
+        uses: actions/upload-artifact@v4  # 使用官方插件上传文件
+        if: always()                      # 【关键】无论上面的脚本是否报错，这一步都会强制执行
+        with:
+          name: debug-screenshots         # 下载时的压缩包名字
+          path: |                         # 指定要上传的文件模式
+            *.png
+            *.html
+          retention-days: 3               # 文件只保留3天，节省空间
