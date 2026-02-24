@@ -12,7 +12,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 # 读取多账号变量
 # 格式要求: 账号1:密码1,账号2:密码2 (用英文逗号分隔账号，冒号分隔账密)
 ACCOUNTS_CONFIG = os.environ.get("ALTR_ACCOUNTS", "")
-LOGIN_URL = "https://console.altr.cc/login" 
+LOGIN_URL = "https://altare.sh/login" 
 # ===========================================
 
 def parse_credits(text):
@@ -97,7 +97,7 @@ def run_account_task(user_email, user_password, index, total_accounts):
         
         # --- 3. 执行签到 (严格保持原逻辑) ---
         print(">>> [导航] 前往 Rewards 页面...")
-        driver.get("https://console.altr.cc/rewards")
+        driver.get("https://altare.sh/billing/rewards/daily")
         time.sleep(5)
 
         try:
